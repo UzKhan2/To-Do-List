@@ -53,11 +53,8 @@
         box-sizing: border-box;
         min-height: 100vh;
         max-width: 800px;
-        margin-left: 0;
-        transition: margin-left 0.3s ease-out;
-      }
-      .main-content.sidebar-visible {
-        margin-left: 250px;
+        margin: 0 auto;
+        transition: none;
       }
       .header {
         display: flex;
@@ -73,6 +70,8 @@
         margin-bottom: 15px;
         transition: color 0.3s;
         align-self: center;
+        text-align: center;
+        width: 100%;
       }
       .light-mode .app-title {
         color: #333;
@@ -140,6 +139,8 @@
         display: flex;
         margin-bottom: 10px;
         gap: 10px;
+        width: 100%;
+        justify-content: center;
       }
       #task-input,
       .task-content {
@@ -148,6 +149,7 @@
         font-size: 16px;
         border-radius: 25px;
         outline: none;
+        width: calc(100% - 50px);
         transition: background-color 0.3s, color 0.3s, border-color 0.3s;
       }
       .light-mode #task-input,
@@ -164,6 +166,38 @@
       }
       .task-content {
         border: none;
+      }
+      .task-item .task-content {
+        cursor: pointer;
+        transition: all 0.3s ease;
+        transform-origin: center;
+      }
+      .task-item .task-content:hover {
+        transform: scale(1.05);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+      .task-item.completed .task-content {
+        background-color: #4caf50;
+        color: white;
+        animation: popOut 1s ease-in-out;
+      }
+      @keyframes popOut {
+        0% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.2);
+        }
+        100% {
+          transform: scale(0);
+          opacity: 0;
+        }
+      }
+      #task-list {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
       }
       ul {
         list-style-type: none;
@@ -282,16 +316,19 @@
         margin-top: 20px;
       }
       .list-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
         cursor: pointer;
         padding: 10px;
         margin-bottom: 5px;
         border-radius: 5px;
         transition: background-color 0.3s;
       }
-      .light-mode .list-item:hover {
+      .light-mode .list-item {
         background-color: #d0d0d0;
       }
-      .dark-mode .list-item:hover {
+      .dark-mode .list-item {
         background-color: #2a2a2a;
       }
       .list-item.active {
@@ -302,6 +339,19 @@
       }
       .dark-mode .list-item.active {
         background-color: #3a3a3a;
+      }
+      .delete-list-btn {
+        background-color: transparent;
+        border: none;
+        color: #ff4d4d;
+        font-size: 18px;
+        cursor: pointer;
+        padding: 0 5px;
+        margin-left: 10px;
+        transition: color 0.3s;
+      }
+      .delete-list-btn:hover {
+        color: #ff0000;
       }
       #new-list-form {
         display: flex;
@@ -331,7 +381,7 @@
       #toggle-sidebar {
         position: fixed;
         top: 10px;
-        left: 250px;
+        left: 0;
         width: 30px;
         height: 30px;
         background-color: #4caf50;
@@ -348,6 +398,41 @@
       .sidebar:not(.visible) + #toggle-sidebar {
         left: 0;
       }
+      #importBtn {
+        background-color: #4caf50;
+        border: none;
+        color: white;
+        padding: 10px 20px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin: 4px 2px;
+        cursor: pointer;
+        border-radius: 5px;
+        transition: background-color 0.3s;
+      }
+
+      #importBtn:hover {
+        background-color: #45a049;
+      }
+      #exportBtn {
+        background-color: #4caf50;
+        border: none;
+        color: white;
+        padding: 10px 20px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin: 4px 2px;
+        cursor: pointer;
+        border-radius: 5px;
+        transition: background-color 0.3s;
+      }
+      #exportBtn:hover {
+        background-color: #45a049;
+      }
       @media (max-width: 768px) {
         .main-content.sidebar-visible {
           margin-left: 0;
@@ -357,60 +442,6 @@
         }
         .sidebar.visible + #toggle-sidebar {
           left: 250px;
-        }
-        .delete-list-btn {
-          font-size: 24px;
-          width: 30px;
-          height: 30px;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          padding: 0;
-          line-height: 1;
-          background-color: transparent;
-          border: none;
-          color: #f44336;
-          cursor: pointer;
-        }
-
-        .delete-list-btn:hover {
-          color: #d32f2f;
-        }
-
-        .list-item {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          padding-right: 5px;
-        }
-        .task-item .task-content {
-          cursor: pointer;
-          transition: all 0.3s ease;
-          transform-origin: center;
-        }
-
-        .task-item .task-content:hover {
-          transform: scale(1.1);
-          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-
-        .task-item.completed .task-content {
-          background-color: #4caf50;
-          color: white;
-          animation: popOut 1s ease-in-out;
-        }
-
-        @keyframes popOut {
-          0% {
-            transform: scale(1);
-          }
-          50% {
-            transform: scale(1.2);
-          }
-          100% {
-            transform: scale(0);
-            opacity: 0;
-          }
         }
       }
     </style>
@@ -461,6 +492,18 @@
             <span class="slider"></span>
           </label>
         </div>
+        <div class="settings-option">
+          <input
+            type="file"
+            id="importInput"
+            accept=".json"
+            style="display: none"
+          />
+          <button id="importBtn">Import Lists</button>
+        </div>
+        <div class="settings-option">
+          <button id="exportBtn">Export Lists</button>
+        </div>
       </div>
     </div>
     <script>
@@ -479,11 +522,20 @@
       const toggleSidebarBtn = document.getElementById("toggle-sidebar");
       const sidebar = document.querySelector(".sidebar");
       const mainContent = document.querySelector(".main-content");
+      const exportBtn = document.getElementById("exportBtn");
+      const importBtn = document.getElementById("importBtn");
+      const importInput = document.getElementById("importInput");
 
       let lists = JSON.parse(localStorage.getItem("lists")) || [
         { name: "First List", tasks: [] },
       ];
       let currentListIndex = 0;
+
+      function ensureCompletedTasksList() {
+        if (!lists.some((list) => list.name === "Completed Tasks")) {
+          lists.push({ name: "Completed Tasks", tasks: [] });
+        }
+      }
 
       function saveLists() {
         localStorage.setItem("lists", JSON.stringify(lists));
@@ -491,18 +543,54 @@
 
       function renderLists() {
         listsContainer.innerHTML = "";
-        lists.forEach((list, index) => {
+
+        const completedTasksList = lists.find(
+          (list) => list.name === "Completed Tasks"
+        );
+        const otherLists = lists.filter(
+          (list) => list.name !== "Completed Tasks"
+        );
+
+        otherLists.forEach((list, index) => {
           const li = document.createElement("li");
           li.className = `list-item ${
             index === currentListIndex ? "active" : ""
           }`;
           li.innerHTML = `
-            <span class="list-name">${list.name}</span>
-            <button class="delete-list-btn" onclick="deleteList(${index}, event)">×</button>
-          `;
-          li.querySelector(".list-name").onclick = () => switchList(index);
+        <span class="list-name">${list.name}</span>
+        <button class="delete-list-btn" onclick="deleteList(${lists.indexOf(
+          list
+        )}, event)">×</button>
+      `;
+          li.addEventListener("click", (event) => {
+            if (!event.target.classList.contains("delete-list-btn")) {
+              switchList(lists.indexOf(list));
+            }
+          });
           listsContainer.appendChild(li);
         });
+
+        const separator = document.createElement("hr");
+        separator.style.margin = "10px 0";
+        separator.style.border = "none";
+        separator.style.borderTop = "1px solid #ccc";
+        listsContainer.appendChild(separator);
+
+        if (completedTasksList) {
+          const li = document.createElement("li");
+          li.className = `list-item ${
+            lists.indexOf(completedTasksList) === currentListIndex
+              ? "active"
+              : ""
+          }`;
+          li.innerHTML = `
+        <span class="list-name">${completedTasksList.name}</span>
+      `;
+          li.addEventListener("click", () =>
+            switchList(lists.indexOf(completedTasksList))
+          );
+          listsContainer.appendChild(li);
+        }
       }
 
       function switchList(index) {
@@ -510,6 +598,14 @@
         renderLists();
         renderTasks();
         listName.value = lists[currentListIndex].name;
+        listName.disabled = lists[currentListIndex].name === "Completed Tasks";
+        toggleTaskInputForm();
+      }
+
+      function toggleTaskInputForm() {
+        const isCompletedTasks =
+          lists[currentListIndex].name === "Completed Tasks";
+        taskForm.style.display = isCompletedTasks ? "none" : "flex";
       }
 
       function renderTasks() {
@@ -521,6 +617,11 @@
             <div class="task-content">${task}</div>
             <button class="btn delete-btn" onclick="deleteTask(${index})">×</button>
           `;
+          if (lists[currentListIndex].name !== "Completed Tasks") {
+            li.querySelector(".task-content").addEventListener("click", () =>
+              completeTask(li, index)
+            );
+          }
           taskList.appendChild(li);
         });
       }
@@ -528,7 +629,7 @@
       function addTask(e) {
         e.preventDefault();
         const newTask = taskInput.value.trim();
-        if (newTask) {
+        if (newTask && lists[currentListIndex].name !== "Completed Tasks") {
           lists[currentListIndex].tasks.push(newTask);
           taskInput.value = "";
           renderTasks();
@@ -545,7 +646,7 @@
       function addNewList(e) {
         e.preventDefault();
         const newListName = newListInput.value.trim();
-        if (newListName) {
+        if (newListName && newListName !== "Completed Tasks") {
           lists.push({ name: newListName, tasks: [] });
           newListInput.value = "";
           currentListIndex = lists.length - 1;
@@ -557,7 +658,7 @@
 
       function deleteList(index, event) {
         event.stopPropagation();
-        if (lists.length > 1) {
+        if (lists.length > 2 && lists[index].name !== "Completed Tasks") {
           lists.splice(index, 1);
           if (currentListIndex >= index) {
             currentListIndex = Math.max(0, currentListIndex - 1);
@@ -566,7 +667,7 @@
           switchList(currentListIndex);
           saveLists();
         } else {
-          alert("You can't delete the last list!");
+          alert("You can't delete this list!");
         }
       }
 
@@ -591,14 +692,15 @@
       }
 
       function saveListName() {
-        lists[currentListIndex].name = listName.value;
-        renderLists();
-        saveLists();
+        if (lists[currentListIndex].name !== "Completed Tasks") {
+          lists[currentListIndex].name = listName.value;
+          renderLists();
+          saveLists();
+        }
       }
 
       function toggleSidebar() {
         sidebar.classList.toggle("visible");
-        mainContent.classList.toggle("sidebar-visible");
         const arrow = toggleSidebarBtn.querySelector(".arrow");
         if (sidebar.classList.contains("visible")) {
           arrow.textContent = "❮";
@@ -616,22 +718,6 @@
         toggleSidebarBtn.style.left = "0";
       }
 
-      function renderTasks() {
-        taskList.innerHTML = "";
-        lists[currentListIndex].tasks.forEach((task, index) => {
-          const li = document.createElement("li");
-          li.className = "task-item";
-          li.innerHTML = `
-        <div class="task-content">${task}</div>
-        <button class="btn delete-btn" onclick="deleteTask(${index})">×</button>
-      `;
-          li.querySelector(".task-content").addEventListener("click", () =>
-            completeTask(li, index)
-          );
-          taskList.appendChild(li);
-        });
-      }
-
       function completeTask(taskElement, index) {
         taskElement.classList.add("completed");
         taskElement.style.animation = "popOut 1s ease-in-out forwards";
@@ -639,12 +725,102 @@
         taskElement.addEventListener(
           "animationend",
           () => {
-            lists[currentListIndex].tasks.splice(index, 1);
-            taskList.removeChild(taskElement);
+            const completedTask = lists[currentListIndex].tasks.splice(
+              index,
+              1
+            )[0];
+            const completedListIndex = lists.findIndex(
+              (list) => list.name === "Completed Tasks"
+            );
+            lists[completedListIndex].tasks.push(completedTask);
+            renderTasks();
             saveLists();
           },
           { once: true }
         );
+      }
+
+      function exportLists() {
+        const dataStr = JSON.stringify(lists, null, 2);
+        const dataUri =
+          "data:application/json;charset=utf-8," + encodeURIComponent(dataStr);
+
+        const exportFileDefaultName = "tasktrack_lists.json";
+
+        const linkElement = document.createElement("a");
+        linkElement.setAttribute("href", dataUri);
+        linkElement.setAttribute("download", exportFileDefaultName);
+        linkElement.click();
+      }
+
+      function importLists() {
+        importInput.click();
+      }
+
+      function handleImport(event) {
+        const file = event.target.files[0];
+        if (file) {
+          const reader = new FileReader();
+          reader.onload = function (e) {
+            try {
+              const importedLists = JSON.parse(e.target.result);
+              if (
+                Array.isArray(importedLists) &&
+                importedLists.every(
+                  (list) =>
+                    typeof list === "object" &&
+                    "name" in list &&
+                    "tasks" in list
+                )
+              ) {
+                const completedTasksIndex = lists.findIndex(
+                  (list) => list.name === "Completed Tasks"
+                );
+
+                let completedTasksList;
+                if (completedTasksIndex !== -1) {
+                  completedTasksList = lists.splice(completedTasksIndex, 1)[0];
+                }
+
+                importedLists.forEach((importedList) => {
+                  const existingListIndex = lists.findIndex(
+                    (list) => list.name === importedList.name
+                  );
+                  if (existingListIndex !== -1) {
+                    const existingTasks = new Set(
+                      lists[existingListIndex].tasks
+                    );
+                    importedList.tasks.forEach((task) =>
+                      existingTasks.add(task)
+                    );
+                    lists[existingListIndex].tasks = Array.from(existingTasks);
+                  } else {
+                    lists.push(importedList);
+                  }
+                });
+
+                if (completedTasksList) {
+                  lists.push(completedTasksList);
+                } else {
+                  lists.push({ name: "Completed Tasks", tasks: [] });
+                }
+
+                saveLists();
+                currentListIndex = 0;
+                renderLists();
+                switchList(currentListIndex);
+                alert("Lists imported successfully!");
+              } else {
+                throw new Error("Invalid file format");
+              }
+            } catch (error) {
+              alert(
+                "Error importing lists. Please make sure you're using a valid TaskTrack export file."
+              );
+            }
+          };
+          reader.readAsText(file);
+        }
       }
 
       const savedMode = localStorage.getItem("mode");
@@ -654,6 +830,7 @@
         body.classList.add("dark-mode");
       }
 
+      ensureCompletedTasksList();
       taskForm.addEventListener("submit", addTask);
       settingsBtn.addEventListener("click", openSettingsModal);
       closeBtn.addEventListener("click", closeSettingsModal);
@@ -663,6 +840,9 @@
       listName.addEventListener("change", saveListName);
       newListForm.addEventListener("submit", addNewList);
       toggleSidebarBtn.addEventListener("click", toggleSidebar);
+      exportBtn.addEventListener("click", exportLists);
+      importBtn.addEventListener("click", importLists);
+      importInput.addEventListener("change", handleImport);
 
       window.addEventListener("load", checkInitialState);
 
